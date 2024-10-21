@@ -1,0 +1,6 @@
+@MarketSphere_HostAddress = http://localhost:5178
+
+GET {{MarketSphere_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
