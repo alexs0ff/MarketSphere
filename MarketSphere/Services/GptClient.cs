@@ -8,14 +8,16 @@ using OllamaSharp.Models;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.AspNetCore.Rewrite;
 using System.Data;
+using MarketSphere.Configs;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace MarketSphere.Services;
 
 public sealed class GptClient
 {
     private readonly ILogger<GptClient> _logger;
-    private readonly Uri _ollamaUri = new Uri("http://localhost:11434");
+    private readonly Uri _ollamaUri;
 
     private const string LlamaModel = "llama3.2";
     private const string MistralModel = "mistral-small";
@@ -23,9 +25,10 @@ public sealed class GptClient
     //private const string SummarizePrompt = "Пожалуйста сократи текст: {0}";
     private const string SummarizePrompt = "Представь себя в роли эксперта по подбору компьютерных комплектующих и выведи только сокращенный текст на русском без своих комментариев: {0}";
 
-    public GptClient(ILogger<GptClient> logger)
+    public GptClient(IOptions<OllamaConfig> config,ILogger<GptClient> logger)
     {
         _logger = logger;
+        _ollamaUri = new Uri(config.Value.Url);
     }
 
     public async IAsyncEnumerable<string> Summarize(string text, [EnumeratorCancellation] CancellationToken cancellationToken)

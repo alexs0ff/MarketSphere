@@ -1,3 +1,4 @@
+using MarketSphere.Configs;
 using MarketSphere.Models;
 using MarketSphere.Models.Gifts;
 using MarketSphere.Services;
@@ -19,6 +20,8 @@ builder.Services.AddSingleton<GiftAdviceFlowService>();
 builder.Services.AddHttpClient<ProxyClient>();
 builder.Services.AddHostedService<SummarizerHostedService>();
 builder.Services.AddHostedService<GiftsAdviceHostedService>();
+
+builder.Services.Configure<OllamaConfig>(builder.Configuration.GetSection("Ollama"));
 
 
 builder.Logging.ClearProviders();
